@@ -1,4 +1,5 @@
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class Task1_DateDifference {
@@ -30,8 +31,8 @@ class SwiftDate {
 	}
 	
 	boolean isLeapYear() {
-		return ((Short.valueOf(this.year) % 4 == 0) && (Short.valueOf(this.year) % 100 != 0)) || 
-				((Short.valueOf(this.year) % 100 == 0) && (Short.valueOf(this.year) % 400 == 0));
+		return LocalDate.of(Integer.valueOf(this.year), 
+				Integer.valueOf(this.month), Integer.valueOf(this.day)).isLeapYear();
 	}
 	
 	int getCentury() {
@@ -43,10 +44,7 @@ class SwiftDate {
 				Integer.valueOf(this.month), Integer.valueOf(this.day));
 		LocalDate secondDate = LocalDate.of(Integer.valueOf(other.year), 
 				Integer.valueOf(other.month), Integer.valueOf(other.day));
-		long proba = Period.between(firstDate, secondDate).getDays();
-	    return Math.abs(Period.between(firstDate, secondDate).getDays());
-//		return(Short.valueOf(this.year) * 365 + Short.valueOf(this.month) * 30 + Short.valueOf(this.day)) -
-//				(Short.valueOf(other.year) * 365 + Short.valueOf(other.month) * 30 + Short.valueOf(other.day));
+	    return (int) Math.abs(ChronoUnit.DAYS.between(firstDate,secondDate)) + 1 ;
 	}
 	
 	void printInfo() {
