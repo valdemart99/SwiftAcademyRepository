@@ -41,6 +41,7 @@ public class Task4_PersonCharacteristics {
 				result.append(firstName).append(" ").append(lastName).append(" is under-aged.");
 			}
 			
+			sc.close();
 			result.append("\n");
 			
 		}
