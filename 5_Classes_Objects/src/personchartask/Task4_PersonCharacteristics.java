@@ -24,9 +24,7 @@ public class Task4_PersonCharacteristics {
 		sc.close();
 		
 		for (int j = 0; j < count; ++j) {
-			//Ivan Ivanov is 17 years old. He was born in 1999. His weight is 67.1 and he is 177 cm tall.
-			//He is a Student with an average grade of 5.438. Ivan Ivanov is under-aged.
-			System.out.printf("%s %s is %d years old. %s was born in %d. %s is %.1f and %s is %d tall. "
+			System.out.printf("%s %s is %d years old. %s was born in %d. %s weight is %.1f and %s is %d tall. "
 					+ "%s is a %s with an average grade of %.3f.", list[j].getFirstName(),
 					list[j].getLastName(), 2019 - list[j].getBirth_year(), list[j].getGender() == 'M' ? "He": "She",
 					list[j].getBirth_year(), list[j].getGender() == 'M' ? "His": "Her", list[j].getWeight(),
