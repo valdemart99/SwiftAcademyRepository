@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="2_DataTypes_Variables_Operators/src"/>
+	<classpathentry kind="src" path="3_Console_ConditionalOperators_Loops/src"/>
+	<classpathentry kind="src" path="4_Arrays_Strings_Memory_SourceControl/src"/>
+	<classpathentry kind="src" path="5_Classes_Objects/src"/>
+	<classpathentry kind="output" path="2_DataTypes_Variables_Operators/bin"/>
+</classpath>
