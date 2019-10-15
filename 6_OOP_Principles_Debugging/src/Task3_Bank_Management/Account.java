@@ -3,13 +3,14 @@ package Task3_Bank_Management;
 public class Account {
 	private String _name;
 	private String _govId;
-	private double _balance = 0;
+	private double _balance;
 	private Credentials _userCredentials;
 	
 	public Account(String name, String govId, String username, String password) {
 		_name = name;
 		_govId = govId;
 		_userCredentials = new Credentials(username, password);
+		_balance = 0;
 	}
 	
 	void deposit(double amount) {

@@ -4,20 +4,26 @@ import java.util.*;
 
 
 public class Task1_Calculator_Client {
-
+	
+	private static int getCommand(String command) {
+		String[] commandList = { "SUM", "SUB", "MUL", "DIV", "PER" };
+		for (int i = 0; i < commandList.length; ++i) {
+			if (commandList[i].equals(command)) { return i; }
+		}
+		return -1;
+	}
+	
 	private static void determineCommand(String command, Calculator calc) {
 		double result = 0;
-		if (command.equals("SUM")) {
-			result = calc.sum();
-		} else if (command.equals("SUB")) {
-			result = calc.substract();
-		} else if (command.equals("MUL")) {
-			result = calc.multiply();
-		} else if (command.equals("DIV")) {
-			result = calc.divide();
-		} else if (command.equals("PER")) {
-			result = calc.percentage();
+		
+		switch (getCommand(command)) {
+			case 0: result = calc.sum(); break;
+			case 1: result = calc.substract(); break;
+			case 2: result = calc.multiply(); break;
+			case 3: result = calc.divide(); break;
+			case 4: result = calc.percentage(); break;
 		}
+		
 		System.out.printf("%.3f\n", result);
 	}
 	

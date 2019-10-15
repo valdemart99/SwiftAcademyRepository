@@ -3,95 +3,102 @@ package Task4_Market;
 import java.util.*;
 
 public class Task4_Market {
+
+	private static boolean properInput = true;
 	
-	private static String errBalance = "Balance can’t be negative.";
-	private static String errPrice = "Price can’t be negative.";
-	private static String errName = "Name can’t be empty.";
+	private static Person[] getPersonList(String command) {
+		String[] persons = command.split(";");
+		Person[] personList = new Person[200];
+		int personCount = 0;
+		
+		for (String singlePerson: persons) {
+			String[] tempArr = singlePerson.split("=");
+			
+			if (tempArr[0].length() == 0) {
+				System.out.println("Name can’t be empty.");
+				properInput = false; break;
+			} else if (Double.valueOf(tempArr[1]) < 0) {
+				System.out.println("Balance can’t be negative.");
+				properInput = false; break;
+			} else {
+				personList[personCount++] = new Person(tempArr[0], Double.valueOf(tempArr[1]));
+			}
+		}
+		
+		return personList;
+	}
+	
+	private static Product[] getProductList(String command) {
+		String[] products = command.split(";");
+		Product[] productList = new Product[500];
+		int productCount = 0;
+		
+		for (String singleProduct: products) {
+			String[] tempArr = singleProduct.split("=");
+			
+			if (tempArr[0].length() == 0) {
+				System.out.println("Name can’t be empty.");
+				properInput = false; break;
+			} else if (Double.valueOf(tempArr[1]) < 0) {
+				System.out.println("Price can’t be negative.");
+				properInput = false; break;
+			} else {
+				productList[productCount++] = new Product(tempArr[0], Double.valueOf(tempArr[1]));
+			}
+		}
+		
+		return productList;
+	}
+	
+	private static void buyProduct(String command, Person[] personList, Product[] productList) {
+		Person thisPerson = personList[OtherOperations.personIndex(command, personList)];
+		Product thisProduct = productList[OtherOperations.productIndex(command, productList)];
+		
+		if (thisPerson.get_balance() >= thisProduct.get_price()) {
+			OtherOperations.addProducts(thisPerson, thisProduct.get_name());
+			thisPerson.set_balance(thisPerson.get_balance() - thisProduct.get_price());
+			System.out.printf("%s bought %s\n", thisPerson.get_name(), thisProduct.get_name());
+		} else {
+			System.out.printf("%s can't afford %s\n", thisPerson.get_name(), thisProduct.get_name());
+		}
+	}
 	
 	public static void main(String[] args) {
 		
 		Scanner input = new Scanner(System.in);
 		
-		Person[] personList = new Person[200];
-		String[] personArray = input.nextLine().split(";");
 		int counter = 0;
-		boolean properInput = true;
 		
-		for (int i = 0; i < personArray.length; ++i) {
-			String[] tempArr = personArray[i].split("=");
-			
-			if (tempArr[0].length() == 0) {
-				System.out.println(errName);
-				properInput = false; break;
-			} else if (Double.valueOf(tempArr[1]) < 0) {
-				System.out.println(errBalance);
-				properInput = false; break;
-			} else {
-				personList[counter++] = new Person(tempArr[0], Double.valueOf(tempArr[1]));
-			}
-		}
-		
-		String[] productArray = input.nextLine().split(";");
+		Person[] personList = new Person[200];
 		Product[] productList = new Product[500];
-		counter = 0;
+
+		String command = input.nextLine();
 		
-		if (properInput) {
+		while(!command.equals("END") && properInput) {
 			
-			for (int i = 0; i < productArray.length; ++i) {
-				String[] tempArr = productArray[i].split("=");
-				
-				if (tempArr[0].length() == 0) {
-					System.out.println(errName);
-					properInput = false; break;
-				} else if (Double.valueOf(tempArr[1]) < 0) {
-					System.out.println(errPrice);
-					properInput = false; break;
-				} else {
-					productList[counter++] = new Product(tempArr[0], Double.valueOf(tempArr[1]));
-				}
-			}
-		}
-		
-		
-		if (properInput) {
-			String command = input.nextLine();
-			
-			while(!command.contentEquals("END")) {
-				int indPerson = 0;
-				int indProduct = 0;
-				
-				for (int i = 0; i < personList.length; ++i) {
-					if(command.contains(personList[i].get_name())) {
-						indPerson = i; break;
-					}
-				}
-				
-				for (int j = 0; j < productArray.length; ++j) {
-					if(command.contains(productList[j].get_name())) {
-						indProduct = j; break;
-					}
-				}
-				
-				if (personList[indPerson].get_balance() >= productList[indProduct].get_price()) {
-					personList[indPerson].addProducts(productList[indProduct].get_name());
-					personList[indPerson].set_balance(personList[indPerson].get_balance() - productList[indProduct].get_price());
-					System.out.printf("%s bought %s\n", personList[indPerson].get_name(), productList[indProduct].get_name());
-				} else {
-					System.out.printf("%s can't afford %s\n", personList[indPerson].get_name(), productList[indProduct].get_name());
-				}
-				
-				command = input.nextLine();
+			if (counter == 0) {
+				personList = getPersonList(command);
+			} else if (counter == 1) {
+				productList = getProductList(command);
+			} else {
+				buyProduct(command, personList, productList);
 			}
 			
-			for (int i = 0 ; i < personList.length; ++i) {
-				if(personList[i] != null) {
-					System.out.printf("%s - ", personList[i].get_name());
-					personList[i].printProducts();
-				}
-			}
+			if (properInput) { command = input.nextLine(); }
+			counter++;
 		}
 		
 		input.close();
+		
+		if (properInput) {
+			for (int i = 0 ; i < personList.length; ++i) {
+				if(personList[i] != null) {
+					System.out.printf("%s - ", personList[i].get_name());
+					OtherOperations.printProducts(personList[i]);
+				}
+			}
+		}
+		
 	}
 
 }

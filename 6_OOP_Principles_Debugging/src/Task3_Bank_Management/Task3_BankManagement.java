@@ -4,26 +4,41 @@ import java.util.Scanner;
 
 public class Task3_BankManagement {
 	
+	public static int getCommand(String command) {
+		String[] commandList = { "OPEN", "CLOSE", "DEPOSIT", "WITHDRAW", "TRANSFER" };
+		for (int i = 0; i < commandList.length; ++i) {
+			if (commandList[i].equals(command)) 
+				{ return i; }
+		}
+		return -1;
+	}
+	
+	public static void commandProcess(String command, Bank bank) {
+		String[] tempArr = command.split(" ");
+		
+		switch (getCommand(tempArr[0])) {
+			case 0:
+				bank.openAccount(tempArr[3], tempArr[4], tempArr[1], tempArr[2]); break;
+			case 1:
+				bank.closeAccount(tempArr[1], tempArr[2]); break;
+			case 2:
+				bank.deposit(tempArr[1], Double.valueOf(tempArr[2])); break;
+			case 3:
+				bank.withdraw(tempArr[1], tempArr[2], Double.valueOf(tempArr[3])); break;
+			case 4:
+				bank.transfer(tempArr[1], tempArr[2], Double.valueOf(tempArr[3]), tempArr[4]); break;
+			default:
+		}
+	}
+	
 	public static void main(String[] args) {
 		
-		Scanner input = new Scanner(System.in);
 		Bank bank = new Bank();
+		Scanner input = new Scanner(System.in);
 		String command = input.nextLine();
 		
 		while (!command.equals("END")) {
-			String[] tempArr = command.split(" ");
-			
-			if (tempArr[0].equals("OPEN")) {
-				bank.openAccount(tempArr[3], tempArr[4], tempArr[1], tempArr[2]);
-			} else if (tempArr[0].equals("CLOSE")) {
-				bank.closeAccount(tempArr[1], tempArr[2]);
-			} else if (tempArr[0].equals("DEPOSIT")) {
-				bank.deposit(tempArr[1], Double.valueOf(tempArr[2]));
-			} else if (tempArr[0].equals("WITHDRAW")) {
-				bank.withdraw(tempArr[1], tempArr[2], Double.valueOf(tempArr[3]));
-			} else if (tempArr[0].equals("TRANSFER")) {
-				bank.transfer(tempArr[1], tempArr[2], Double.valueOf(tempArr[3]), tempArr[4]);
-			}
+			commandProcess(command, bank);
 			command = input.nextLine();
 		}
 		
