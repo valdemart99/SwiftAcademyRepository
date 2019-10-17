@@ -1,8 +1,6 @@
 package Task1_Calculator_Client;
 import java.util.*;
 
-
-
 public class Task1_Calculator_Client {
 	
 	private static int getCommand(String command) {
