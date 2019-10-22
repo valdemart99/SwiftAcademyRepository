@@ -4,56 +4,52 @@ import java.util.*;
 
 public class Task3_FileManagement {
 	
-	private static int getCommand(String command) {
-		String[] commandList = { "MAKE", "MOVE", "MOD", "COPY", "DEL", "EXEC", "INFO"};
-		for (int i = 0; i < commandList.length; ++i) {
-			if (commandList[i].equals(command)) { return i; }
-		}
-		return -1;
-	}
-	
 	private static void processCommand(FileSystem fileSystem, String command) {
 		String[] tempArr = command.split(" ");
 		
-		switch(getCommand(tempArr[0])) {
-			case 0:
-				if (tempArr[3].contains("CONTENT")) {
-					if (tempArr[1].endsWith(".avi") || tempArr[1].endsWith(".mp3")) {
-						fileSystem.createNewFile(new MediaContentFile(tempArr[1], tempArr[2], tempArr[3].substring(8)));
-					} else {
-						fileSystem.createNewFile(new DocumentContentFile(tempArr[1], tempArr[2], tempArr[3].substring(8)));
-					}
-				} else {
-					String[] resources = Arrays.copyOfRange(tempArr, 3, tempArr.length);
-					if (fileSystem.checkRequiredResources(resources)) {
-						fileSystem.createNewFile(new ExecutableFile(tempArr[1], tempArr[2], resources));
-					}
-				}
+		switch(tempArr[0]) {
+			case "MAKE":
+				executeMakeCommand(fileSystem, tempArr);
 				break;
-			case 1:
+			case "MOVE":
 				fileSystem.findByName(tempArr[1]).move(tempArr[2]);
 				break;
-			case 2:
+			case "MOD":
 				if (fileSystem.findByName(tempArr[1]) instanceof ContentFile) {
 					((ContentFile) fileSystem.findByName(tempArr[1])).modify(tempArr[2]);
 				}
 				break;
-			case 3:
+			case "COPY":
 				fileSystem.createNewFile(fileSystem.findByName(tempArr[1]).copy(tempArr[2]));
 				break;
-			case 4:
+			case "DEL":
 				fileSystem.findByName(tempArr[1]).delete();
 				break;
-			case 5:
+			case "EXEC":
 				if (fileSystem.findByName(tempArr[1]) instanceof ExecutableFile) {
 					recursiveExecution(fileSystem, (ExecutableFile)fileSystem.findByName(tempArr[1]));
 				} else {
 					fileSystem.findByName(tempArr[1]).execute();
 				}
 				break;
-			case 6:
+			case "INFO":
 				fileSystem.findByName(tempArr[1]).getInfo();
 				break;
+		}
+	}
+	
+	public static void executeMakeCommand(FileSystem fileSystem, String[] commands) {
+		if (commands[3].contains("CONTENT")) {
+			if (commands[1].endsWith(".avi") || commands[1].endsWith(".mp3")) {
+				fileSystem.createNewFile(new MediaContentFile(commands[1], commands[2], commands[3].substring(8)));
+			} else {
+				fileSystem.createNewFile(new DocumentContentFile(commands[1], commands[2], commands[3].substring(8)));
+			}
+		} else {
+			String[] resources = Arrays.copyOfRange(commands, 3, commands.length);
+			if (fileSystem.checkRequiredResources(resources)) {
+				fileSystem.createNewFile(new ExecutableFile(commands[1], commands[2], resources));
+			}
 		}
 	}
 	

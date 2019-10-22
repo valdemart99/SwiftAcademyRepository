@@ -15,10 +15,10 @@ public class Task4_Market {
 			String[] tempArr = singlePerson.split("=");
 			
 			if (tempArr[0].length() == 0) {
-				System.out.println("Name can’t be empty.");
+				System.out.println("Name can't be empty.");
 				properInput = false; break;
 			} else if (Double.valueOf(tempArr[1]) < 0) {
-				System.out.println("Balance can’t be negative.");
+				System.out.println("Balance can't be negative.");
 				properInput = false; break;
 			} else {
 				personList[personCount++] = new Person(tempArr[0], Double.valueOf(tempArr[1]));
@@ -37,10 +37,10 @@ public class Task4_Market {
 			String[] tempArr = singleProduct.split("=");
 			
 			if (tempArr[0].length() == 0) {
-				System.out.println("Name can’t be empty.");
+				System.out.println("Name can't be empty.");
 				properInput = false; break;
 			} else if (Double.valueOf(tempArr[1]) < 0) {
-				System.out.println("Price can’t be negative.");
+				System.out.println("Price can't be negative.");
 				properInput = false; break;
 			} else {
 				productList[productCount++] = new Product(tempArr[0], Double.valueOf(tempArr[1]));

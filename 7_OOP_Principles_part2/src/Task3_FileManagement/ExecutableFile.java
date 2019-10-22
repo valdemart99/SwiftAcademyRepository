@@ -20,4 +20,9 @@ public class ExecutableFile extends File{
 		return requiredResources;
 	}
 
+	public void execute() {
+		if (!this.isDeleted()) {
+			System.out.printf("Executing %s/%s\n", this.getLocation(), this.getName());
+		}
+	}
 }

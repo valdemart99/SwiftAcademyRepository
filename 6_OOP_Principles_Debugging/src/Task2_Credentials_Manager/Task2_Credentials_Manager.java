@@ -43,22 +43,25 @@ public class Task2_Credentials_Manager {
 			
 			if (checkCommand(tempArr[0]) && checkInput(tempArr)) {
 				
-				if (tempArr[0].equals("ENROLL")) {
-					userList[listCounter] = new Credentials(tempArr[1], tempArr[2]);
-					listCounter++; // no check for going over 200, do not wish to complicate it further
-					
-				} else if (tempArr[0].equals("AUTH")) {
-					int index = getUserIndex(userList, tempArr[1]);
-					if (index > -1) {
-						userList[index].checkCurrentPassword(tempArr[2]);
-					}
-					
-				} else if (tempArr[0].equals("CHPASS")) {
-					int index = getUserIndex(userList, tempArr[1]);
-					if (index > -1) {
-						userList[index].setPassword(tempArr[2], tempArr[3]);
-					}
+				switch (tempArr[0]) {
+					case "ENROLL":
+						userList[listCounter] = new Credentials(tempArr[1], tempArr[2]);
+						listCounter++; // no check for going over 200, do not wish to complicate it further
+						break;
+					case "AUTH":
+						int index = getUserIndex(userList, tempArr[1]);
+						if (index > -1) {
+							userList[index].checkCurrentPassword(tempArr[2]);
+						}
+						break;
+					case "CHPASS":
+						int index2 = getUserIndex(userList, tempArr[1]);
+						if (index2 > -1) {
+							userList[index2].setPassword(tempArr[2], tempArr[3]);
+						}
+						break;
 				}
+
 			}
 			
 			command = input.nextLine();

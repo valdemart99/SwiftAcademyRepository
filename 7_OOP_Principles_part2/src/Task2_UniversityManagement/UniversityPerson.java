@@ -30,4 +30,8 @@ public class UniversityPerson {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public void personWorks(University university) {}
+	
+	public void adjustTolerance(UniversityPerson workingPerson) {}
 }

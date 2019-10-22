@@ -6,4 +6,10 @@ public class DocumentContentFile extends ContentFile {
 		super(name, location, content);
 	}
 	
+	public void execute() {
+		if (!this.isDeleted()) {
+			System.out.printf("%s%s%s %s/%s\n%s\n", (char) 10003,(char) 10003,(char) 10003,
+					this.getLocation(), this.getName(), this.getContent());
+		}
+	}
 }

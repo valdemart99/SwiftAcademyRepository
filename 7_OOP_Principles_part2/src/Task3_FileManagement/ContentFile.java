@@ -28,4 +28,5 @@ public class ContentFile extends File {
 		return lastModifiedDate;
 	}
 
+	public void execute() {}
 }

@@ -34,19 +34,7 @@ public class File {
 		this.isDeleted = true;
 	}
 	
-	public void execute() {
-		if (!this.isDeleted) {
-			if (this instanceof ExecutableFile) {
-				System.out.printf("Executing %s/%s\n", this.getLocation(), this.getName());
-			} else if (this instanceof MediaContentFile) {
-				System.out.printf("%s%s%s %s/%s\n%s\n", (char) 9835,(char) 9835,(char) 9835,
-						this.getLocation(), this.getName(), ((MediaContentFile)this).getContent());
-			} else if (this instanceof DocumentContentFile) {
-				System.out.printf("%s%s%s %s/%s\n%s\n", (char) 10003,(char) 10003,(char) 10003,
-						this.getLocation(), this.getName(), ((DocumentContentFile)this).getContent());
-			}
-		}
-	}
+	public void execute() {	}
 	
 	public void getInfo() {
 		String info = "Name: " + this.location + "/" + this.name + (this.isDeleted ? " [DELETED]\n" : "\n") +
