@@ -4,8 +4,8 @@ import Task2_Bank.customers.*;
 
 public class DepositAccount extends Account {
 
-	public DepositAccount(String iban, Customer owner, double monthlyInterestRate) {
-		super(iban, owner, monthlyInterestRate);
+	public DepositAccount(Customer owner, double balance, double monthlyInterestRate) {
+		super(owner, balance, monthlyInterestRate);
 	}
 	
 	public void creditAmount(double amount) {
@@ -15,8 +15,6 @@ public class DepositAccount extends Account {
 	}
 
 	public double calculateInterestByPeriod(int months) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.getBalance() * this.getMonthlyInterestRate() * months;
 	}
-
 }

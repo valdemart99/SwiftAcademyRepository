@@ -3,26 +3,23 @@ package Task2_Bank.accounts;
 import Task2_Bank.customers.*;
 
 public abstract class Account {
+	private static int consecutiveIban = 0;
 	private String iban;
 	private Customer owner;
 	private double balance;
 	private double monthlyInterestRate;
 	
-	public Account(String iban, Customer owner, double monthlyInterestRate) {
-		this.iban = iban;
+	public Account(Customer owner, double balance, double monthlyInterestRate) {
+		this.iban = "00000000".substring(String.valueOf(++consecutiveIban).length()) + String.valueOf(consecutiveIban);
 		this.owner = owner;
-		this.balance = 0;
-		this.monthlyInterestRate = monthlyInterestRate;
+		this.balance = balance;
+		this.monthlyInterestRate = monthlyInterestRate / 100;
 	}
 	
 	public void depositAmount(double amount) {
 		if (amount > 0 ) {
 			this.balance += amount;
 		}
-	}
-	
-	protected double calculateInterest(int months) {
-		return this.balance * this.monthlyInterestRate * months;
 	}
 
 	public abstract double calculateInterestByPeriod(int months);
