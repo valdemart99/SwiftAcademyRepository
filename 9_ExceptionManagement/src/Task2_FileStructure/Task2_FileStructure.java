@@ -10,8 +10,17 @@ public class Task2_FileStructure {
 		String command = scan.nextLine();
 		
 		while (!command.equals("END")) {
-			mft.createNew(command);
+			UserInput input = new UserInput(command);
+			try {
+				if (mft.checkObjectInput(input)) {
+					mft.createNewSystemObject(input);
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
 			command = scan.nextLine();
+			mft.incrementCounter();
 		}
 		
 		scan.close();

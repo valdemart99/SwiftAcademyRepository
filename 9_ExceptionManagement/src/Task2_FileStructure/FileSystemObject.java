@@ -10,7 +10,7 @@ public abstract class FileSystemObject {
 	}
 
 	public boolean equals(String fullPathName) {
-		return (this.parent + this.name).equals(fullPathName) ? true : false;
+		return (this.parent + this.name + "/").equals(fullPathName) ? true : false;
 	}
 	
 	public String getParent() {
