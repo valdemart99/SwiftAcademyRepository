@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class PrimaryEducation extends Education {
 
-	public PrimaryEducation(LocalDate enrollmentDate, LocalDate graduationDate, String institutionName) {
+	public PrimaryEducation(LocalDate enrollmentDate, LocalDate graduationDate, String institutionName) throws Exception {
 		super(enrollmentDate, graduationDate, institutionName);
 	}
 

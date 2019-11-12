@@ -2,6 +2,8 @@ package Task4_PersonCharacteristics.education;
 
 import java.time.LocalDate;
 
+import Task4_PersonCharacteristics.exceptions.IncorrectUserInputException;
+
 public abstract class Education {
 	
 	private boolean graduated;
@@ -9,10 +11,17 @@ public abstract class Education {
 	private LocalDate graduationDate;
 	private String institutionName;
 	
-	public Education(LocalDate enrollmentDate, LocalDate graduationDate, String institutionName) {
+	public Education(LocalDate enrollmentDate, LocalDate graduationDate, String institutionName) throws Exception {
+		if (enrollmentDate.isAfter(graduationDate)) {
+			throw new IncorrectUserInputException("Graduation date is expected to be after enrollment date.");
+		}
+		
 		this.enrollmentDate = enrollmentDate;
 		this.graduationDate = graduationDate;
 		this.institutionName = institutionName;
+		if (institutionName.isEmpty()) {
+			throw new IncorrectUserInputException("Expected non-empty institution name.");
+		}
 		this.graduated = graduationDate.isBefore(LocalDate.now()) ? true : false;
 	}
 
@@ -21,9 +30,8 @@ public abstract class Education {
 	
 	@Override
 	public String toString() {
-		//He started secondary degree in SOU Chintulov on 2015-09-16 and is supposed to graduate on 2020-05-22.
-		//He started master degree in SU on 2005-10-04 and finished on 2007-05-15. His grade was 5.760.
-		return String.format("He started %s degree in %s on %s and %s on %s.%s\n", 
+		try {
+			return String.format("He started %s degree in %s on %s and %s on %s.%s\n", 
 				this.getDegree(),
 				this.institutionName,
 				this.enrollmentDate.toString(),
@@ -31,6 +39,9 @@ public abstract class Education {
 				this.graduationDate.toString(),
 				(this instanceof GradedEducation && this.graduationDate.isBefore(LocalDate.now()) ? 
 						String.format(" His grade was %.3f", ((GradedEducation)this).getFinalGrade()) : ""));
+		} catch (Exception e) {
+			return e.getMessage();
+		}
 	}
 	
 	public boolean isGraduated() {
@@ -49,7 +60,10 @@ public abstract class Education {
 		return institutionName;
 	}
 	
-	public void setGraduationDate(LocalDate graduationDate) {
+	public void setGraduationDate(LocalDate graduationDate) throws Exception {
+		if (graduationDate.isAfter(LocalDate.now())) {
+			throw new IncorrectUserInputException("Graduation date is expected to be a date in the past.");
+		}
 		this.graduationDate = graduationDate;
 		this.graduated = graduationDate.isBefore(LocalDate.now()) ? true : false;
 	}

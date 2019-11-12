@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Òask1b_PrintMatrix {
+public class Ð¢ask1b_PrintMatrix {
 
 	public static void main(String[] args) {
 		

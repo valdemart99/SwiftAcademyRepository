@@ -5,87 +5,71 @@ import java.time.*;
 import java.util.*;
 
 import Task4_PersonCharacteristics.education.*;
+import Task4_PersonCharacteristics.exceptions.IncorrectUserInputException;
+import Task4_PersonCharacteristics.input.*;
 
 public class Task4_PersonCharacteristics {
 	
-	private static PersonChar getPersonEntry(String[] input) {
+	private static PersonChar getPersonEntry(UserInput input) throws Exception {
 		Education personEducaiton;
 		Address address;
 		
-		switch(input[14].charAt(0)) {
+		switch(input.getEducationDegree()) {
 			case 'P':
-				personEducaiton = new PrimaryEducation(LocalDate.parse(input[16], DateTimeFormatter.ofPattern("d.M.yyyy")),
-						LocalDate.parse(input[17], DateTimeFormatter.ofPattern("d.M.yyyy")),
-						input[15]);
+				personEducaiton = new PrimaryEducation(input.getEnrollmentDate(),input.getGraduationDate(),
+														input.getInstitutionName());
 				break;
 			case 'S':
-				if (input.length == 19) {
-					personEducaiton = new SecondaryEducation(LocalDate.parse(input[16], DateTimeFormatter.ofPattern("d.M.yyyy")),
-							LocalDate.parse(input[17], DateTimeFormatter.ofPattern("d.M.yyyy")),
-							input[15],
-							Float.parseFloat(input[18]));
+				if (input.getFinalGrade() == -1) {
+					personEducaiton = new SecondaryEducation(input.getEnrollmentDate(),input.getGraduationDate(),
+															input.getInstitutionName());
 				} else {
-					personEducaiton = new SecondaryEducation(LocalDate.parse(input[16], DateTimeFormatter.ofPattern("d.M.yyyy")),
-							LocalDate.parse(input[17], DateTimeFormatter.ofPattern("d.M.yyyy")),
-							input[15]);
+					personEducaiton = new SecondaryEducation(input.getEnrollmentDate(),input.getGraduationDate(),
+															input.getInstitutionName(),input.getFinalGrade());
 				}
 				break;
 			case 'B': case 'M': case 'D':
-				if (input.length == 19) {
-					personEducaiton = new HigherEducation(LocalDate.parse(input[16], DateTimeFormatter.ofPattern("d.M.yyyy")),
-							LocalDate.parse(input[17], DateTimeFormatter.ofPattern("d.M.yyyy")),
-							input[15],
-							input[14].charAt(0),
-							Float.parseFloat(input[18]));
+				if (input.getFinalGrade() == -1) {
+					personEducaiton = new HigherEducation(input.getEnrollmentDate(),input.getGraduationDate(),
+															input.getInstitutionName(),input.getEducationDegree());
 				} else {
-					personEducaiton = new HigherEducation(LocalDate.parse(input[16], DateTimeFormatter.ofPattern("d.M.yyyy")),
-							LocalDate.parse(input[17], DateTimeFormatter.ofPattern("d.M.yyyy")),
-							input[15],
-							input[14].charAt(0));
+					personEducaiton = new HigherEducation(input.getEnrollmentDate(),input.getGraduationDate(),
+							input.getInstitutionName(),input.getEducationDegree(),input.getFinalGrade());
 				}
 				break;
 			default:
-				personEducaiton = new PrimaryEducation(LocalDate.now(), LocalDate.now(), "");
+				throw new IncorrectUserInputException("Unrecognized education code.");
 		}
 		
-		if (input[12].equals("") || input[13].equals("")) {
-			address = new Address(input[6],
-					input[7],
-					input[8],
-					Short.parseShort(input[9]),
-					input[10],
-					Short.parseShort(input[11]));
+		if (input.getFloor() == -1 || input.getApartmentNo() == -1) {
+			address = new Address(input.getCountry(),input.getCity(), input.getMunicipality(), input.getPostalCode(),
+									input.getStreet(), input.getNumber());
 		} else {
-			address = new Address(input[6],
-					input[7],
-					input[8],
-					Short.parseShort(input[9]),
-					input[10],
-					Short.parseShort(input[11]),
-					Short.parseShort(input[12]),
-					Short.parseShort(input[13]));
+			address = new Address(input.getCountry(),input.getCity(), input.getMunicipality(), input.getPostalCode(),
+					input.getStreet(), input.getNumber(),input.getFloor(), input.getApartmentNo());
 		}
 		
-		return new PersonChar(input[0],
-				input[1],
-				input[2],
-				input[3].charAt(0),
-				LocalDate.parse(input[4], DateTimeFormatter.ofPattern("d.M.yyyy")),
-				Short.parseShort(input[5]),
-				address,
-				personEducaiton);
+		return new PersonChar(input.getFirstName(),input.getMiddleName(),input.getLastName(),
+				input.getGender(),input.getBirthDate(), input.getHeight(), address,	personEducaiton);
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Please enter how many persons data will be processed: ");
+		System.out.print("Please enter how many persons' data will be processed: ");
 		int count = sc.nextInt();
-		PersonChar[] list = new PersonChar[count];
 		sc.nextLine();
+		PersonChar[] list = new PersonChar[count];
 		
-		for (int i = 0; i < count; ++i) {
-			list[i] = getPersonEntry(sc.nextLine().split(";"));
+		int currentLoop = 0;
+		while (currentLoop < count) {
+			try {
+				UserInput input = new UserInput(sc.nextLine());
+				list[currentLoop] = getPersonEntry(input);
+				currentLoop++;
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		
 		sc.close();

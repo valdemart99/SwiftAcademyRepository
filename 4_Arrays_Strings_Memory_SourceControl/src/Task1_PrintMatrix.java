@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Task1à_PrintMatrix {
+public class Task1_PrintMatrix {
 
 	public static void main(String[] args) {
 		

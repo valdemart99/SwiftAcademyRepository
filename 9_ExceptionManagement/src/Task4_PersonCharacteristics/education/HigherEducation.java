@@ -6,13 +6,13 @@ public class HigherEducation extends GradedEducation{
 	private char educationDegree;
 	
 	public HigherEducation(LocalDate enrollmentDate, LocalDate graduationDate, String institutionName,
-			char educationDegree, float finalGrade) {
+			char educationDegree, float finalGrade) throws Exception {
 		super(enrollmentDate, graduationDate, institutionName, finalGrade);
 		this.educationDegree = educationDegree;
 	}
 	
 	public HigherEducation(LocalDate enrollmentDate, LocalDate graduationDate, String institutionName,
-			char educationDegree) {
+			char educationDegree) throws Exception {
 		super(enrollmentDate, graduationDate, institutionName);
 		this.educationDegree = educationDegree;
 	}

@@ -3,6 +3,7 @@ package Task4_PersonCharacteristics;
 import java.time.LocalDate;
 
 import Task4_PersonCharacteristics.education.*;
+import Task4_PersonCharacteristics.exceptions.IncorrectUserInputException;
 
 public class PersonChar {
 	private String firstName;
@@ -15,13 +16,35 @@ public class PersonChar {
 	private Address address;
 	
 	public PersonChar(String firstName, String middleName, String lastName, char gender, LocalDate birth_date,
-			short height, Address address, Education education) {
+			short height, Address address, Education education) throws Exception {
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
+		if (firstName.isEmpty()) {
+			throw new IncorrectUserInputException("Expected non-empty first name.");
+		}
+		if (middleName.isEmpty()) {
+			throw new IncorrectUserInputException("Expected non-empty middle name.");
+		}
+		if (lastName.isEmpty()) {
+			throw new IncorrectUserInputException("Expected non-empty last name.");
+		}
+		
 		this.gender = gender;
+		if (gender != 'M' && gender != 'F') {
+			throw new IncorrectUserInputException("Expected M or F for gender.");
+		}
+		
 		this.birth_date = birth_date;
+		if (birth_date.isBefore(LocalDate.of(1900, 1, 1)) || birth_date.isAfter(LocalDate.now())) {
+			throw new IncorrectUserInputException("Date of birth is expected to be after 01.01.1900 and before now.");
+		}
+		
 		this.height = height;
+		if (height < 40 || height > 300) {
+			throw new IncorrectUserInputException("Expected height is between 40 and 300 cm.");
+		}
+		
 		this.address = address;
 		this.education = education;
 	}

@@ -5,11 +5,11 @@ import java.time.LocalDate;
 public class SecondaryEducation extends GradedEducation{
 
 	public SecondaryEducation(LocalDate enrollmentDate, LocalDate graduationDate, String institutionName,
-			float finalGrade) {
+			float finalGrade) throws Exception {
 		super(enrollmentDate, graduationDate, institutionName, finalGrade);
 	}
 	
-	public SecondaryEducation(LocalDate enrollmentDate, LocalDate graduationDate, String institutionName) {
+	public SecondaryEducation(LocalDate enrollmentDate, LocalDate graduationDate, String institutionName) throws Exception {
 		super(enrollmentDate, graduationDate, institutionName);
 	}
 
